@@ -1,5 +1,6 @@
 package kata5p1;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -7,15 +8,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class Kata5P1 {
     private String name;
+    static String fileName = "C:\\Users\\Entrar\\Documents\\NetBeansProjects\\Kata5P1\\email.txt";
+    static List<String> mailList;
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         SelectApp app = new SelectApp();
         app.selectAll();
         createNewTable();
-
+        mailList = (new MailListReader()).read(fileName);
+        InsertarDatosTabla idt = new InsertarDatosTabla();
+        for (String mail : mailList) {
+            idt.insert(mail);
+        }
     }
 
     private static void connect() {
@@ -108,7 +116,7 @@ public class Kata5P1 {
         // Cadena de conexión SQLite
         String url = "jdbc:sqlite:Kata5.db";
         // Instrucción SQL para crear nueva tabla
-        String sql = "CREATE TABLE EMAIL (\n"
+        String sql = "CREATE TABLE IF NOT EXISTS EMAIL (\n"
                 + " Id	INTEGER PRIMARY KEY AUTOINCREMENT, \n"
                 + " Mail    TEXT NOT NULL);";
         try (Connection conn = DriverManager.getConnection(url);
