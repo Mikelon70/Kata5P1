@@ -1,5 +1,4 @@
 package kata5p1;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,7 +8,7 @@ public class SelectApp {
     // Se conecta a la BD y se devuelve un objeto Connection
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:KATA5.db";
+        String url = "jdbc:sqlite:Kata5.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -37,4 +36,3 @@ public class SelectApp {
         }
     }
 }
-

@@ -23,36 +23,27 @@ public class Kata5P1 {
     
     
     
-    // Se conecta a la BD y se devuelve un objeto Connection
-    private Connection connect() {
-        // SQLite connection string
-        String url = "jdbc:sqlite:Kata5.db";
+    private static void connect() {
         Connection conn = null;
         try {
+            // parámetros de la BD
+            String url = "jdbc:sqlite:Kata5.db";
+            // creamos una conexión a la BD
             conn = DriverManager.getConnection(url);
+            System.out.println("Connexión a SQLite establecida");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-    
-    // Se seleccionan todos los registros de la tabla PEOPLE
-    public void selectAll(){
-        String sql = "SELECT * FROM PEOPLE";
-        try (Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
-            // Bucle sobre el conjunto de registros.
-            while (rs.next()) {
-                System.out.println(rs.getInt("id") + "\t" +
-                rs.getString("Name") + "\t" +
-                rs.getString("Apellidos") + "\t" +
-                rs.getString("Departamento") + "\t");
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
     }
+
 
     
 //    public void testQuery_1() {
