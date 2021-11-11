@@ -14,15 +14,10 @@ public class Kata5P1 {
     public static void main(String[] args) {
         SelectApp app = new SelectApp();
         app.selectAll();
+        createNewTable();
 
     }
-    
-    public Kata5P1(String name) {
-        this.name = name;
-    }
-    
-    
-    
+
     private static void connect() {
         Connection conn = null;
         try {
@@ -107,12 +102,31 @@ public class Kata5P1 {
 //            close(conn);
 //        }
 //    }
+    
+    
+    public static void createNewTable() {
+        // Cadena de conexión SQLite
+        String url = "jdbc:sqlite:Kata5.db";
+        // Instrucción SQL para crear nueva tabla
+        String sql = "CREATE TABLE EMAIL (\n"
+                + " Id	INTEGER PRIMARY KEY AUTOINCREMENT, \n"
+                + " Mail    TEXT NOT NULL);";
+        try (Connection conn = DriverManager.getConnection(url);
+        Statement stmt = conn.createStatement()) {
+            // Se crea la nueva tabla
+            stmt.execute(sql);
+            System.out.println("Tabla creada");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 //    
 //    public void createNewTable() {
 //        Connection conn = null;
-//        String sql = "CREATE TABLE IF NOT EXISTS CORREOS (\n"
-//                + " Id integer PRIMARY KEY AUTOINCREMENT, \n"
-//                + " Direciion text NOT NULL);";
+//        String sql = "CREATE TABLE EMAIL (\n"
+//                + " Id	INTEGER PRIMARY KEY AUTOINCREMENT, \n"
+//                + " Mail    TEXT NOT NULL);";
 //        try {
 //            conn = this.connect();
 //            Statement stmt = conn.createStatement();
